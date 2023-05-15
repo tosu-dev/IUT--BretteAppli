@@ -1,4 +1,6 @@
 package App.Server.Models;
 
-public class Model {
+public interface Model<Entity> {
+
+
 }
