@@ -1,5 +1,5 @@
 CREATE TABLE bretteapplidb.Suscriber (
-    id BIGINT AUTO_INCREMENT,
+    id INTEGER AUTO_INCREMENT,
     firstname VARCHAR(50) NOT NULL,
     lastname VARCHAR(50) NOT NULL,
     birthdate DATE NOT NULL,
@@ -13,7 +13,7 @@ CREATE TABLE bretteapplidb.TypeDocumentState (
 );
 
 CREATE TABLE bretteapplidb.Document (
-    id BIGINT AUTO_INCREMENT,
+    id INTEGER AUTO_INCREMENT,
     title VARCHAR(100) NOT NULL,
     state INT NOT NULL,
     CONSTRAINT PK_Document PRIMARY KEY (id),
@@ -27,9 +27,9 @@ CREATE TABLE bretteapplidb.TypeCommand (
 );
 
 CREATE TABLE bretteapplidb.Command (
-    id BIGINT AUTO_INCREMENT,
-    idSuscriber BIGINT NOT NULL,
-    idDocument BIGINT NOT NULL,
+    id INTEGER AUTO_INCREMENT,
+    idSuscriber INTEGER NOT NULL,
+    idDocument INTEGER NOT NULL,
     date Date NOT NULL,
     type INT NOT NULL,
     CONSTRAINT PK_Command PRIMARY KEY (id),
@@ -40,7 +40,7 @@ CREATE TABLE bretteapplidb.Command (
 );
 
 CREATE TABLE bretteapplidb.Dvd (
-    id BIGINT,
+    id INTEGER,
     adult boolean,
     CONSTRAINT PK_Dvd PRIMARY KEY (id),
     CONSTRAINT FK_Dvd_id FOREIGN KEY (id) REFERENCES Document(id)

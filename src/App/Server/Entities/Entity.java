@@ -1,4 +1,4 @@
 package App.Server.Entities;
 
-public class Entity {
+public interface Entity {
 }

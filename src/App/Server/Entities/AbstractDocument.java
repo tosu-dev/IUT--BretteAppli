@@ -1,6 +1,6 @@
 package App.Server.Entities;
 
-public abstract class AbstractDocument implements Document {
+public abstract class AbstractDocument implements Document, Entity {
 
     int numero;
     String title;

@@ -4,7 +4,7 @@ DROP TABLE bretteapplidb.typecommand;
 
 DROP TABLE bretteapplidb.suscriber;
 
-DROP TABLE bretteapplidb.dvd
+DROP TABLE bretteapplidb.dvd;
 
 DROP TABLE bretteapplidb.document;
 

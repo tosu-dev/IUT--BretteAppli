@@ -4,13 +4,20 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+// databasemanager
 public class Manager {
+
+    public static Connection connect;
 
     public static Connection connect() {
         try {
+            // TODO : check is connected
+            if (connect != null) return connect;
 
             Class.forName("com.mysql.cj.jdbc.Driver");
-            return DriverManager.getConnection("jdbc:mysql://localhost:3306/bretteapplidb?user=root");
+            connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/bretteapplidb?user=root");
+            connect.setAutoCommit(false);
+            return connect;
 
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -18,4 +25,6 @@ public class Manager {
             throw new RuntimeException(e);
         }
     }
+
+    // disconnect (optional)
 }

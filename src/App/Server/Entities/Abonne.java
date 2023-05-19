@@ -1,22 +1,21 @@
 package App.Server.Entities;
 
-import java.math.BigInteger;
 import java.util.Date;
 
-public class Abonne {
+public class Abonne implements Entity {
 
-    private BigInteger id;
+    private int id;
     private String firstname;
     private String lastname;
     private Date birthdate;
 
     public Abonne() { ; }
 
-    public BigInteger getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(BigInteger id) {
+    public void setId(int id) {
         this.id = id;
     }
 

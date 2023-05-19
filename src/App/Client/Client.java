@@ -29,6 +29,7 @@ public class Client {
 			System.out.println("Connecté au serveur " + socket.getInetAddress() + ":"+ socket.getPort());
 
 			if (choice == 1 || choice == 2) {
+				// TODO : a mettre dans le service
 				System.out.print("Connectez-vous : ");
 				String idSuscriber = kb.readLine();
 

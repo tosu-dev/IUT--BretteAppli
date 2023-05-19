@@ -1,15 +1,12 @@
 package App.Server.Services;
 
 import App.Server.Entities.Abonne;
-import App.Server.Entities.Document;
-import App.Server.Models.DocumentModel;
 import App.Server.Models.SuscriberModel;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.math.BigInteger;
 import java.net.Socket;
 
 public class ReservationService extends Service  {
@@ -28,8 +25,8 @@ public class ReservationService extends Service  {
             String line = in.readLine();
             String[] infos = line.split(" ");
 
-            BigInteger idSuscriber = new BigInteger(infos[0]);
-            BigInteger idDocument = new BigInteger(infos[1]);
+            int idSuscriber = Integer.parseInt(infos[0]);
+            int idDocument = Integer.parseInt(infos[1]);
 
             Abonne suscriber = SuscriberModel.getById(idSuscriber);
 
