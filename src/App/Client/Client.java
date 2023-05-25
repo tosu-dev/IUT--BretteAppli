@@ -24,25 +24,7 @@ public class Client {
 			System.out.println(port);
 
 			socket = new Socket(HOST, port);
-			BufferedReader sin = new BufferedReader (new InputStreamReader(socket.getInputStream ( )));
-			PrintWriter sout = new PrintWriter (socket.getOutputStream ( ), true);
 			System.out.println("Connecté au serveur " + socket.getInetAddress() + ":"+ socket.getPort());
-
-			if (choice == 1 || choice == 2) {
-				// TODO : a mettre dans le service
-				System.out.print("Connectez-vous : ");
-				String idSuscriber = kb.readLine();
-
-				System.out.print("\nChoisissez un document :");
-				String idDocument = kb.readLine();
-
-				sout.println(idSuscriber + " " + idDocument);
-			} else if (choice == 3) {
-				System.out.print("\nChoisissez un document :");
-				String idDocument = kb.readLine();
-
-				sout.println(idDocument);
-			}
 
 			socket.close();
 		} catch (IOException e) {

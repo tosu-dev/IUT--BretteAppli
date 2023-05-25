@@ -1,5 +1,9 @@
 package App.Server;
 
+import App.Server.Services.Borrow.BorrowServer;
+import App.Server.Services.Reservation.ReservationServer;
+import App.Server.Services.Return.ReturnServer;
+
 import java.io.IOException;
 
 public class App {

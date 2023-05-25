@@ -1,7 +1,7 @@
 package App.Server.Models;
 
 import App.Server.Entities.Abonne;
-import App.Server.Managers.Manager;
+import App.Server.Managers.DatabaseManager;
 
 import java.sql.*;
 
@@ -9,7 +9,7 @@ public class SuscriberModel {
 
     public static Abonne getById(int id) {
         try {
-            Connection connect = Manager.connect();
+            Connection connect = DatabaseManager.connect();
 
             PreparedStatement req = connect.prepareStatement("SELECT * FROM bretteapplidb.suscriber WHERE id = ?");
             req.setString(1, Integer.toString(id));
