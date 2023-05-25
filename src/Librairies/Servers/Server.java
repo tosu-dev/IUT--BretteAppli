@@ -7,21 +7,15 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.SocketException;
 
 public abstract class Server implements Runnable {
-    private final int port;
 
-    private final ServerSocket             listenSocket;
+    private final ServerSocket listenSocket;
     private final Class<? extends Service> serviceClass;
-    private       Service                  actualServiceClass;
+    private Service actualServiceClass;
 
     public Server(Class<? extends Service> serviceClass, int port) throws IOException {
-        this.port = port;
         this.serviceClass = serviceClass;
-        this.listenSocket = new ServerSocket(this.port);
+        this.listenSocket = new ServerSocket(port);
         this.actualServiceClass = null;
-    }
-
-    public int getPort() {
-        return this.port;
     }
 
     public ServerSocket getListenSocket() {
@@ -38,7 +32,8 @@ public abstract class Server implements Runnable {
         } catch (NoSuchMethodException e) {
             try {
                 this.listenSocket.close();
-            } catch (IOException ignored) {}
+            } catch (IOException ignored) {
+            }
 
             System.err.println("Problem on the listening port : " + e);
 
