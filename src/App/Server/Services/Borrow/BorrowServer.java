@@ -8,11 +8,12 @@ import java.io.IOException;
 
 public class BorrowServer extends Server {
 
-    private static final int PORT = 1001;
-    private static final Class<BorrowService> serviceClass = BorrowService.class;
+    private static final int                  PORT          = 1001;
+    private static final String               NAME          = "Borrow";
+    private static final Class<BorrowService> SERVICE_CLASS = BorrowService.class;
 
 
     public BorrowServer() throws IOException {
-        super(serviceClass, PORT);
+        super(SERVICE_CLASS, PORT, NAME);
     }
 }

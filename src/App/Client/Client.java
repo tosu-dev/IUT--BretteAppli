@@ -1,38 +1,27 @@
 package App.Client;
 
+import App.Client.Factories.ClientFactory;
+import App.Client.Managers.ClientManager;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.lang.reflect.InvocationTargetException;
 import java.net.Socket;
 
 public class Client {
 
-    private final static String HOST = "localhost";
-
     public static void main(String[] args) {
-        System.out.println("Hello, i'm the client !");
+        try {
+            ClientManager clientManager = ClientFactory.create(args);
 
-        Socket socket = null;
-		try {
+            ClientFactory.manage(clientManager);
 
-			BufferedReader kb = new BufferedReader(new InputStreamReader(System.in));
-			System.out.println("Voulez-vous : (1)réserver (2)emprunter (3)retourner");
-			int choice = Integer.parseInt(kb.readLine());
-
-			int port = 1000 + choice - 1;
-			System.out.println(port);
-
-			socket = new Socket(HOST, port);
-			System.out.println("Connecté au serveur " + socket.getInetAddress() + ":"+ socket.getPort());
-
-			socket.close();
-		} catch (IOException e) {
-            System.err.println(e);
+            ClientFactory.close(clientManager);
+        } catch (InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException |
+                 IOException e) {
+            throw new RuntimeException(e);
         }
-
-		try {
-            if (socket != null) socket.close();
-        } catch (IOException e2) { ; }
-	}
+    }
 }

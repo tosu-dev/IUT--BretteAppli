@@ -21,7 +21,6 @@ public class ReservationService extends Service {
 
     @Override
     protected void execute() throws IOException {
-        String read = this.getProtocol().read();
-        this.getProtocol().send("Hello ! You sent me : " + read);
+        System.out.println(this.read());
     }
 }

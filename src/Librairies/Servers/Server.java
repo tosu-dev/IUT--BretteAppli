@@ -8,14 +8,30 @@ import java.net.SocketException;
 
 public abstract class Server implements Runnable {
 
-    private final ServerSocket listenSocket;
+    private final int                      port;
+    private final String                   name;
+    private final ServerSocket             listenSocket;
     private final Class<? extends Service> serviceClass;
-    private Service actualServiceClass;
+    private       Service                  actualServiceClass;
 
-    public Server(Class<? extends Service> serviceClass, int port) throws IOException {
+    public Server(Class<? extends Service> serviceClass, int port, String name) throws IOException {
         this.serviceClass = serviceClass;
         this.listenSocket = new ServerSocket(port);
         this.actualServiceClass = null;
+        this.port = port;
+        this.name = name;
+    }
+
+    public Server(Class<? extends Service> serviceClass, int port) throws IOException {
+        this(serviceClass, port, "Not defined");
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public String getIp() {
+        return "127.0.0.1:" + port;
     }
 
     public ServerSocket getListenSocket() {
@@ -42,9 +58,13 @@ public abstract class Server implements Runnable {
         }
     }
 
+    public void start() {
+        new Thread(this).start();
+    }
+
     public void stop() throws IOException {
         if (this.actualServiceClass != null) {
-            this.actualServiceClass.getClient().close();
+            this.actualServiceClass.close();
         }
         this.getListenSocket().close();
     }

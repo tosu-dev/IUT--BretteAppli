@@ -9,32 +9,15 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.Socket;
 import java.net.SocketException;
 
-public abstract class Service implements Runnable {
-
-    protected final Socket   client;
-    protected final Protocol protocol;
-
-    public Service(Socket socket) throws IOException {
-        this.client = socket;
-        this.protocol = new WankaProtocol(this.client);
-    }
+public abstract class Service extends Link {
 
     public Service(Socket socket, Class<? extends Protocol> protocol) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-
-        this.client = socket;
-        this.protocol = protocol.getConstructor(Socket.class).newInstance(socket);
-
+        super(socket, protocol);
     }
 
-    protected Socket getClient() {
-        return this.client;
+    public Service(Socket socket) throws IOException {
+        super(socket);
     }
-
-    protected Protocol getProtocol() {
-        return this.protocol;
-    }
-
-    abstract protected void execute() throws IOException;
 
     @Override
     public void run() {
@@ -48,6 +31,11 @@ public abstract class Service implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void close() throws IOException {
+        this.client.close();
+        this.protocol.close();
     }
 
     public void start() {

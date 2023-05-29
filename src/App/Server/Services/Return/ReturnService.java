@@ -13,11 +13,6 @@ public class ReturnService extends Service {
 
     @Override
     protected void execute() throws IOException {
-
-    }
-
-    @Override
-    public void run() {
-        System.out.println("Service de retour");
+        System.out.println(this.read());
     }
 }

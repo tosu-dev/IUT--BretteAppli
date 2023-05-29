@@ -13,11 +13,6 @@ public class BorrowService extends Service {
 
     @Override
     protected void execute() throws IOException {
-
-    }
-
-    @Override
-    public void run() {
-        System.out.println("Service d'emprunt");
+        System.out.println(this.read());
     }
 }
