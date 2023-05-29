@@ -1,5 +1,7 @@
 package App.Server.Entities;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 
 public class Abonne implements Entity {
@@ -41,5 +43,15 @@ public class Abonne implements Entity {
 
     public void setBirthdate(Date birthdate) {
         this.birthdate = birthdate;
+    }
+
+    @Override
+    public Entity setFromResultSet(ResultSet res) throws SQLException {
+        this.id = res.getInt("id");
+        this.firstname = res.getString("firstname");
+        this.lastname = res.getString("lastname");
+        this.birthdate = res.getDate("birthdate");
+
+        return this;
     }
 }

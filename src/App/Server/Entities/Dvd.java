@@ -1,5 +1,8 @@
 package App.Server.Entities;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class Dvd extends AbstractDocument {
 
     private boolean adult;
@@ -27,5 +30,14 @@ public class Dvd extends AbstractDocument {
     @Override
     public void retour() {
 
+    }
+
+    @Override
+    public Entity setFromResultSet(ResultSet res) throws SQLException {
+        this.numero = res.getInt("id");
+        this.title = res.getString("title");
+        this.adult = res.getBoolean("adult");
+
+        return null;
     }
 }
