@@ -6,4 +6,9 @@ import java.sql.SQLException;
 public interface Entity {
 
     Entity setFromResultSet(ResultSet res) throws SQLException;
+
+    String getIdentifier();
+
+    void save() throws SQLException;
+
 }

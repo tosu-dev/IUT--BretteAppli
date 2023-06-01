@@ -1,6 +1,7 @@
 package App.Server.Models;
 
 import App.Server.Entities.Entity;
+import App.Server.Managers.BigDataManager;
 import App.Server.Managers.DatabaseManager;
 
 import java.lang.reflect.InvocationTargetException;
@@ -17,6 +18,9 @@ public abstract class Model {
     public Model() {
         connection = DatabaseManager.connect();
     }
+
+
+    public abstract void save() throws SQLException;
 
 
     public Entity getById(int id) {
@@ -46,6 +50,10 @@ public abstract class Model {
         }
     };
 
+    public void send() throws SQLException {
+        Vector<Entity> entities = getAll();
+        entities.forEach(BigDataManager::add);
+    }
 
     protected abstract String getTableName();
 

@@ -1,10 +1,14 @@
 package App.Server.Entities;
 
+import App.Server.Models.SuscriberModel;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 
 public class Abonne implements Entity {
+
+    private final static String PREFIX = "SUB-";
 
     private int id;
     private String firstname;
@@ -53,5 +57,15 @@ public class Abonne implements Entity {
         this.birthdate = res.getDate("birthdate");
 
         return this;
+    }
+
+    @Override
+    public String getIdentifier() {
+        return PREFIX + id;
+    }
+
+    @Override
+    public void save() throws SQLException {
+        new SuscriberModel().save();
     }
 }

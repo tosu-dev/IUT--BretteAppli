@@ -4,11 +4,17 @@ import App.Server.Entities.Abonne;
 import App.Server.Entities.Entity;
 
 import java.lang.reflect.InvocationTargetException;
+import java.sql.SQLException;
 
 public class SuscriberModel extends Model {
 
     public SuscriberModel() {
         super();
+    }
+
+    @Override
+    public void save() throws SQLException {
+        // nothing
     }
 
     @Override

@@ -4,11 +4,17 @@ import App.Server.Entities.Dvd;
 import App.Server.Entities.Entity;
 
 import java.lang.reflect.InvocationTargetException;
+import java.sql.SQLException;
 
 public class DocumentModel extends Model {
 
     public DocumentModel() {
         super();
+    }
+
+    @Override
+    public void save() throws SQLException {
+        // TODO
     }
 
     @Override

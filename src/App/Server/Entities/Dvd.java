@@ -1,9 +1,13 @@
 package App.Server.Entities;
 
+import App.Server.Models.DocumentModel;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Dvd extends AbstractDocument {
+
+    private final static String PREFIX = "DVD-";
 
     private boolean adult;
 
@@ -39,5 +43,15 @@ public class Dvd extends AbstractDocument {
         this.adult = res.getBoolean("adult");
 
         return null;
+    }
+
+    @Override
+    public String getIdentifier() {
+        return PREFIX + numero;
+    }
+
+    @Override
+    public void save() throws SQLException {
+        new DocumentModel().save();
     }
 }
