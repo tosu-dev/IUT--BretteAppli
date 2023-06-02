@@ -14,5 +14,6 @@ public class BorrowService extends Service {
     @Override
     protected void execute() throws IOException {
         System.out.println(this.read());
+        this.send("cc");
     }
 }

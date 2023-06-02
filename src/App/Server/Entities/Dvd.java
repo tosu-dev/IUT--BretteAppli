@@ -60,6 +60,6 @@ public class Dvd extends AbstractDocument {
     }
 
     public void save() throws SQLException {
-        new DvdModel().save();
+        new DvdModel().save(this);
     }
 }

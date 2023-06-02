@@ -27,12 +27,16 @@ public class ClientFactory {
             default -> new ClientManager(DEFAULT_HOST, DEFAULT_PORT);
         };
 
-        cm.send("welcome");
+        cm.send("CONNECTED TO SERVER");
         System.out.println(cm.read());
 
         return cm;
     }
 
+    /**
+     * Method to read and show server messages and stop while needed.
+     * @param cm global Client Manager
+     */
     public static void manage(ClientManager cm) throws IOException {
         while (true) {
             cm.send(cm.getInput().readLine());
@@ -44,6 +48,11 @@ public class ClientFactory {
         }
     }
 
+    /**
+     * Close the actual client
+     * @param cm Global Client Manager
+     * @throws IOException Permit to the Client Thread to close. IT ALWAYS THROWS THIS EXCEPTION.
+     */
     public static void close(ClientManager cm) throws IOException {
         cm.close();
     }

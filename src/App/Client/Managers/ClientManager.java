@@ -16,6 +16,10 @@ public class ClientManager extends Link {
         super(new Socket(host, port), WankaProtocol.class);
     }
 
+    /**
+     * Get client input
+     * @return what client write and want to send to the server
+     */
     public BufferedReader getInput() {
         return new BufferedReader(new InputStreamReader(System.in));
     }

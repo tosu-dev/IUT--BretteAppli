@@ -51,6 +51,6 @@ public class Abonne implements Entity {
 
     @Override
     public void save() throws SQLException {
-        new SuscriberModel().save();
+        new SuscriberModel().save(this);
     }
 }
