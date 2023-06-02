@@ -1,7 +1,7 @@
 package App.Server.Entities;
 
 import App.Server.Entities.Interfaces.Entity;
-import App.Server.Models.SuscriberModel;
+import App.Server.Models.SubscriberModel;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -51,6 +51,6 @@ public class Abonne implements Entity {
 
     @Override
     public void save() throws SQLException {
-        new SuscriberModel().save(this);
+        new SubscriberModel().save(this);
     }
 }

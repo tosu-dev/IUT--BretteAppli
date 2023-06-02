@@ -1,12 +1,11 @@
 package App.Server.Factories;
 
-import App.Server.Entities.Command;
 import App.Server.Entities.Interfaces.Entity;
 import App.Server.Managers.BigDataManager;
 import App.Server.Models.CommandModel;
 import App.Server.Models.DocumentModel;
 import App.Server.Models.Model;
-import App.Server.Models.SuscriberModel;
+import App.Server.Models.SubscriberModel;
 
 import java.sql.SQLException;
 import java.util.Vector;
@@ -17,7 +16,7 @@ public class BigDataFactory {
 
     public static void create() {
         models.add(new DocumentModel());
-        models.add(new SuscriberModel());
+        models.add(new SubscriberModel());
         models.add(new CommandModel());
 
         try {

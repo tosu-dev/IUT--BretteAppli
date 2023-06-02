@@ -25,7 +25,7 @@ public class Dvd extends AbstractDocument {
     }
 
     public void reservation(Abonne ab) {
-        if (!this.adult || !dvdUtils.hasAge(ab.getBirthdate())) {
+        if (this.adult && !dvdUtils.hasAge(ab.getBirthdate())) {
             throw new AgeRestrictionException();
         }
 
@@ -33,7 +33,7 @@ public class Dvd extends AbstractDocument {
     }
 
     public void emprunt(Abonne ab) {
-        if (!this.adult || !dvdUtils.hasAge(ab.getBirthdate())) {
+        if (this.adult && !dvdUtils.hasAge(ab.getBirthdate())) {
             throw new AgeRestrictionException();
         }
 

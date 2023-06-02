@@ -1,1 +1,1 @@
-CREATE DATABASE bretteapplidb;
+CREATE DATABASE IF NOT EXISTS bretteapplidb;

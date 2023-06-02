@@ -3,6 +3,7 @@ package App.Server.Entities;
 import App.Server.Entities.Interfaces.Entity;
 import App.Server.Models.DocumentModel;
 import App.Server.Models.CommandModel;
+import App.Server.Models.SubscriberModel;
 
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -55,7 +56,7 @@ public class Command implements Entity {
 
     public Entity setFromResultSet(ResultSet res) throws SQLException {
         this.id = res.getInt("id");
-        this.subscriber = (Abonne) (new DocumentModel()).getById(res.getInt("idSubscriber"));
+        this.subscriber = (Abonne) (new SubscriberModel()).getById(res.getInt("idSubscriber"));
         this.document = (Document) (new DocumentModel()).getById(res.getInt("idDocument"));
 
         this.date = res.getDate("date");

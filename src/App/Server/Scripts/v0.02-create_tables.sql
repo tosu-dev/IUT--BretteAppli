@@ -1,4 +1,4 @@
-CREATE TABLE bretteapplidb.Suscriber (
+CREATE TABLE bretteapplidb.Subscriber (
     id INTEGER AUTO_INCREMENT,
     firstname VARCHAR(50) NOT NULL,
     lastname VARCHAR(50) NOT NULL,
@@ -33,7 +33,7 @@ CREATE TABLE bretteapplidb.Command (
     date Date NOT NULL,
     type INT NOT NULL,
     CONSTRAINT PK_Command PRIMARY KEY (id),
-    CONSTRAINT FK_Command_idSuscriber FOREIGN KEY (idSuscriber) REFERENCES Suscriber(id),
+    CONSTRAINT FK_Command_idSuscriber FOREIGN KEY (idSuscriber) REFERENCES Subscriber(id),
     CONSTRAINT FK_Command_idDocument FOREIGN KEY (idDocument) REFERENCES Document(id),
     CONSTRAINT FK_Command_type FOREIGN KEY (type) REFERENCES TypeCommand(id),
     CONSTRAINT U_Command_idSuscriber_idDocument UNIQUE (idSuscriber, idDocument)

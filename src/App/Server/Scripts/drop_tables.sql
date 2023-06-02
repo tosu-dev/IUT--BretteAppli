@@ -1,14 +1,14 @@
-DROP TABLE bretteapplidb.command;
+DROP TABLE IF EXISTS bretteapplidb.command;
 
-DROP TABLE bretteapplidb.typecommand;
+DROP TABLE IF EXISTS bretteapplidb.typecommand;
 
-DROP TABLE bretteapplidb.suscriber;
+DROP TABLE IF EXISTS bretteapplidb.subscriber;
 
-DROP TABLE bretteapplidb.dvd;
+DROP TABLE IF EXISTS bretteapplidb.dvd;
 
-DROP TABLE bretteapplidb.document;
+DROP TABLE IF EXISTS bretteapplidb.document;
 
-DROP TABLE bretteapplidb.typedocumentstate;
+DROP TABLE IF EXISTS bretteapplidb.typedocumentstate;
 
 
 
