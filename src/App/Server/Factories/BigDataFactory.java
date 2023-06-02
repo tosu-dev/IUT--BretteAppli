@@ -1,7 +1,9 @@
 package App.Server.Factories;
 
-import App.Server.Entities.Entity;
+import App.Server.Entities.Command;
+import App.Server.Entities.Interfaces.Entity;
 import App.Server.Managers.BigDataManager;
+import App.Server.Models.CommandModel;
 import App.Server.Models.DocumentModel;
 import App.Server.Models.Model;
 import App.Server.Models.SuscriberModel;
@@ -16,6 +18,7 @@ public class BigDataFactory {
     public static void create() {
         models.add(new DocumentModel());
         models.add(new SuscriberModel());
+        models.add(new CommandModel());
 
         try {
             for (Model model: models)

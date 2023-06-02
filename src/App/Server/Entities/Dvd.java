@@ -1,57 +1,65 @@
 package App.Server.Entities;
 
+import App.Server.Entities.Interfaces.Entity;
+import App.Server.Exceptions.AgeRestrictionException;
 import App.Server.Models.DocumentModel;
+import App.Server.Models.DvdModel;
+import App.Server.Utils.dvdUtils;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Dvd extends AbstractDocument {
 
-    private final static String PREFIX = "DVD-";
+    private final static String   PREFIX = "DVD-";
+    private              Document document;
 
     private boolean adult;
 
-    @Override
     public Abonne empruntePar() {
-        return null;
+        return this.document.empruntePar();
     }
 
-    @Override
     public Abonne reservePar() {
-        return null;
+        return this.document.reservePar();
     }
 
-    @Override
     public void reservation(Abonne ab) {
+        if (!this.adult || !dvdUtils.hasAge(ab.getBirthdate())) {
+            throw new AgeRestrictionException();
+        }
 
+        this.document.reservation(ab);
     }
 
-    @Override
     public void emprunt(Abonne ab) {
+        if (!this.adult || !dvdUtils.hasAge(ab.getBirthdate())) {
+            throw new AgeRestrictionException();
+        }
 
+        this.document.emprunt(ab);
     }
 
-    @Override
     public void retour() {
-
+        this.document.retour();
     }
 
-    @Override
     public Entity setFromResultSet(ResultSet res) throws SQLException {
         this.numero = res.getInt("id");
+        this.document = (Document) (new DocumentModel()).getById(this.numero);
+
         this.title = res.getString("title");
         this.adult = res.getBoolean("adult");
 
-        return null;
+
+        return this;
     }
 
-    @Override
     public String getIdentifier() {
         return PREFIX + numero;
     }
 
-    @Override
     public void save() throws SQLException {
-        new DocumentModel().save();
+        new DvdModel().save();
     }
 }

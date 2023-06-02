@@ -1,6 +1,6 @@
 package App.Server.Models;
 
-import App.Server.Entities.Entity;
+import App.Server.Entities.Interfaces.Entity;
 import App.Server.Managers.BigDataManager;
 import App.Server.Managers.DatabaseManager;
 
@@ -20,7 +20,7 @@ public abstract class Model {
     }
 
 
-    public abstract void save() throws SQLException;
+    public abstract void save(Entity entity) throws SQLException;
 
 
     public Entity getById(int id) {
@@ -33,37 +33,40 @@ public abstract class Model {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    };
+    }
+
+    ;
 
     public Vector<Entity> getAll() {
         Vector<Entity> vector = new Vector<>();
-        ResultSet res = getResultForAll(getTableName());
+        ResultSet      res    = getResultForAll(getTableName());
         try {
             while (res.next()) {
                 vector.add(getEntityFromResultSet(res));
             }
 
             return vector;
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    };
+    }
+
+    ;
 
     public void send() throws SQLException {
-        Vector<Entity> entities = getAll();
+        Vector<Entity> entities = this.getAll();
         entities.forEach(BigDataManager::add);
     }
 
     protected abstract String getTableName();
 
-    protected abstract Entity getEntityInstance() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException;
+    protected abstract Entity getEntityInstance();
 
 
     private ResultSet getResultForId(String tableName, int id) {
         try {
-            String reqString = "SELECT * FROM bretteapplidb." + tableName + " WHERE id = ?";
-            PreparedStatement req = connection.prepareStatement(reqString);
+            String            reqString = "SELECT * FROM bretteapplidb." + tableName + " WHERE id = ?";
+            PreparedStatement req       = connection.prepareStatement(reqString);
             req.setString(1, Integer.toString(id));
 
             return req.executeQuery();
@@ -74,7 +77,7 @@ public abstract class Model {
     }
 
     private ResultSet getResultForAll(String tableName) {
-        try  {
+        try {
             String reqString = "SELECT * FROM bretteapplidb." + tableName;
 
             return connection.createStatement().executeQuery(reqString);
@@ -86,11 +89,7 @@ public abstract class Model {
     }
 
     private Entity getEntityFromResultSet(ResultSet res) throws SQLException {
-        try {
-            Entity entity = getEntityInstance();
-            return entity.setFromResultSet(res);
-        } catch (InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
+        Entity entity = getEntityInstance();
+        return entity.setFromResultSet(res);
     }
 }

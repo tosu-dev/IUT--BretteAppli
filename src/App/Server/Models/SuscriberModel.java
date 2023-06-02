@@ -1,7 +1,7 @@
 package App.Server.Models;
 
 import App.Server.Entities.Abonne;
-import App.Server.Entities.Entity;
+import App.Server.Entities.Interfaces.Entity;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
@@ -12,9 +12,8 @@ public class SuscriberModel extends Model {
         super();
     }
 
-    @Override
-    public void save() throws SQLException {
-        // nothing
+    public void save(Entity entity) throws SQLException {
+        return;
     }
 
     @Override
@@ -23,8 +22,7 @@ public class SuscriberModel extends Model {
     }
 
     @Override
-    public Entity getEntityInstance() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-        Class<?> suscriberClass = Abonne.class;
-        return (Entity) suscriberClass.getConstructor().newInstance();
+    public Entity getEntityInstance() {
+        return new Abonne();
     }
 }

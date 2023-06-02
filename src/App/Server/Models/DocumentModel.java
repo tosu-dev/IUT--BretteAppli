@@ -1,9 +1,11 @@
 package App.Server.Models;
 
-import App.Server.Entities.Dvd;
-import App.Server.Entities.Entity;
+import App.Server.Entities.Interfaces.Entity;
+import App.Server.Entities.Document;
+import App.Server.Managers.DatabaseManager;
 
 import java.lang.reflect.InvocationTargetException;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class DocumentModel extends Model {
@@ -13,8 +15,17 @@ public class DocumentModel extends Model {
     }
 
     @Override
-    public void save() throws SQLException {
-        // TODO
+    public void save(Entity entity) throws SQLException {
+        Document doc = (Document) entity;
+
+        int documentNumber = doc.getId();
+        int documentState = doc.getState();
+
+        PreparedStatement res = DatabaseManager.connect().prepareStatement("UPDATE document SET state = ? WHERE id = ?");
+        res.setInt(1, documentState);
+        res.setInt(2, documentNumber);
+
+        res.executeUpdate();
     }
 
     @Override
@@ -23,8 +34,7 @@ public class DocumentModel extends Model {
     }
 
     @Override
-    public Entity getEntityInstance() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-        Class<?> dvdClass = Dvd.class;
-        return (Entity) dvdClass.getConstructor().newInstance();
+    public Entity getEntityInstance() {
+        return new Document();
     }
 }
