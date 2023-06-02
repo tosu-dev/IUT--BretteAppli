@@ -1,9 +1,13 @@
 package App.Server.Models;
 
 import App.Server.Entities.Abonne;
+import App.Server.Entities.Document;
 import App.Server.Entities.Interfaces.Entity;
+import App.Server.Managers.DatabaseManager;
 
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.concurrent.Flow;
 
 public class SubscriberModel extends Model {
 
@@ -12,7 +16,16 @@ public class SubscriberModel extends Model {
     }
 
     public void save(Entity entity) throws SQLException {
-        return;
+        Abonne subscriber = (Abonne) entity;
+
+        int subscriberId = subscriber.getId();
+        boolean subscriberBanState = subscriber.isBanned();
+
+        PreparedStatement res = DatabaseManager.connect().prepareStatement("UPDATE subscriber SET isBanned = ?, birthdate = NOW() WHERE id = ?");
+        res.setBoolean(1, subscriberBanState);
+        res.setInt(2, subscriberId);
+
+        res.executeUpdate();
     }
 
     @Override

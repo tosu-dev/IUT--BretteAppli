@@ -21,7 +21,7 @@ public class CommandModel extends Model {
     }
 
     private void editCommand(int commandId, Abonne subscriber, Document document, Date date) throws SQLException {
-        PreparedStatement res = DatabaseManager.connect().prepareStatement("UPDATE command SET idSuscriber = ?, idDocument = ?, date = ? WHERE id = ?");
+        PreparedStatement res = DatabaseManager.connect().prepareStatement("UPDATE command SET idSubscriber = ?, idDocument = ?, date = ? WHERE id = ?");
         res.setInt(1, subscriber.getId());
         res.setInt(2, document.getId());
         res.setDate(3, date);
@@ -35,10 +35,10 @@ public class CommandModel extends Model {
 
         Command command = (Command) entity;
 
-        int      id = command.getId();
-        Abonne   subscriber    = command.getSubscriber();
-        Document document      = command.getDocument();
-        Date     date          = command.getDate();
+        int id = command.getId();
+        Abonne subscriber = command.getSubscriber();
+        Document document = command.getDocument();
+        Date date = command.getDate();
 
         if (subscriber == null || document == null) {
             this.deleteCommand(id);

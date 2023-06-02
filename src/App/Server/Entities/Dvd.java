@@ -47,8 +47,6 @@ public class Dvd extends AbstractDocument {
     public Entity setFromResultSet(ResultSet res) throws SQLException {
         this.numero = res.getInt("id");
         this.document = (Document) (new DocumentModel()).getById(this.numero);
-
-        this.title = res.getString("title");
         this.adult = res.getBoolean("adult");
 
 
@@ -61,5 +59,10 @@ public class Dvd extends AbstractDocument {
 
     public void save() throws SQLException {
         new DvdModel().save(this);
+    }
+
+    @Override
+    public String toString() {
+        return this.document.toString() + ((this.adult) ? " {+16} " : " {tout public} ");
     }
 }

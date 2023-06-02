@@ -3,7 +3,9 @@ CREATE TABLE bretteapplidb.Subscriber (
     firstname VARCHAR(50) NOT NULL,
     lastname VARCHAR(50) NOT NULL,
     birthdate DATE NOT NULL,
-    CONSTRAINT PK_Suscriber PRIMARY KEY (id)
+    isBanned INT(1) DEFAULT 0,
+    bannedDate DATE,
+    CONSTRAINT PK_Subscriber PRIMARY KEY (id)
 );
 
 CREATE TABLE bretteapplidb.TypeDocumentState (
@@ -20,23 +22,15 @@ CREATE TABLE bretteapplidb.Document (
     CONSTRAINT FK_Document_state FOREIGN KEY (state) REFERENCES TypeDocumentState(id)
 );
 
-CREATE TABLE bretteapplidb.TypeCommand (
-    id INT AUTO_INCREMENT,
-    label VARCHAR(20) NOT NULL,
-    CONSTRAINT PK_TypeCommand PRIMARY KEY (id)
-);
-
 CREATE TABLE bretteapplidb.Command (
     id INTEGER AUTO_INCREMENT,
-    idSuscriber INTEGER NOT NULL,
+    idSubscriber INTEGER NOT NULL,
     idDocument INTEGER NOT NULL,
     date Date NOT NULL,
-    type INT NOT NULL,
     CONSTRAINT PK_Command PRIMARY KEY (id),
-    CONSTRAINT FK_Command_idSuscriber FOREIGN KEY (idSuscriber) REFERENCES Subscriber(id),
+    CONSTRAINT FK_Command_idSubscriber FOREIGN KEY (idSubscriber) REFERENCES Subscriber(id),
     CONSTRAINT FK_Command_idDocument FOREIGN KEY (idDocument) REFERENCES Document(id),
-    CONSTRAINT FK_Command_type FOREIGN KEY (type) REFERENCES TypeCommand(id),
-    CONSTRAINT U_Command_idSuscriber_idDocument UNIQUE (idSuscriber, idDocument)
+    CONSTRAINT U_Command_idSubscriber_idDocument UNIQUE (idSubscriber, idDocument)
 );
 
 CREATE TABLE bretteapplidb.Dvd (

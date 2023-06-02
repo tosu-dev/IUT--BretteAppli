@@ -41,7 +41,6 @@ public abstract class Server implements Runnable {
     public void run() {
         try {
             while (true) {
-                //todo see if we can remove this while true
                 actualServiceClass = this.serviceClass.getConstructor(Socket.class).newInstance(listenSocket.accept());
                 actualServiceClass.start();
             }

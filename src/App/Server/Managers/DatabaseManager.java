@@ -42,7 +42,6 @@ public class DatabaseManager {
 
     public static Connection connect() {
         try {
-            // TODO : check is connected
             if (connectionInstance != null && !connectionInstance.isClosed()) return connectionInstance;
 
             Class.forName("com.mysql.cj.jdbc.Driver");

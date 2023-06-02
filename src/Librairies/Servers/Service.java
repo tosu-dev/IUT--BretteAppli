@@ -23,7 +23,6 @@ public abstract class Service extends Link {
     public void run() {
         try {
             while (true) {
-                //todo see if we can remove this while true
                 this.protocol.setupCommunication();
                 execute();
             }

@@ -1,6 +1,10 @@
 package App.Server.Entities;
 
 import App.Server.Entities.Interfaces.Entity;
+import App.Server.Exceptions.BannedUserException;
+import App.Server.Exceptions.DocumentAlreadyBookedException;
+import App.Server.Exceptions.IllegalBorrowException;
+import App.Server.Exceptions.IllegalReturnException;
 import App.Server.Models.DocumentModel;
 
 import java.sql.Date;
@@ -11,10 +15,16 @@ import java.util.Calendar;
 public class Document extends AbstractDocument {
 
     private final static String PREFIX = "DOC-";
-    protected final      Object lock   = new Object();
+    protected final Object lock = new Object();
 
-    private int     state;
+    private int state;
     private Command command;
+
+    private void checkIfUserIsBanned(Abonne ab) {
+        if(ab.isBanned()) {
+            throw new BannedUserException();
+        }
+    }
 
     public void setState(DocumentState state) throws SQLException {
         this.state = state.getId();
@@ -23,10 +33,6 @@ public class Document extends AbstractDocument {
 
     public int getState() {
         return this.state;
-    }
-
-    public int getId() {
-        return this.numero();
     }
 
     public Abonne empruntePar() {
@@ -46,7 +52,13 @@ public class Document extends AbstractDocument {
     }
 
     public void reservation(Abonne ab) {
-        //TODO preconditions & timer
+        //TODO TIMER
+
+        this.checkIfUserIsBanned(ab);
+
+        if(this.state != DocumentState.FREE.getId()) {
+            throw new DocumentAlreadyBookedException();
+        }
 
         try {
             this.command = new Command(ab, this, (Date) Calendar.getInstance().getTime());
@@ -57,7 +69,16 @@ public class Document extends AbstractDocument {
     }
 
     public void emprunt(Abonne ab) {
-        //TODO preconditions
+
+        this.checkIfUserIsBanned(ab);
+
+        if(this.getState() == DocumentState.BORROWED.getId()) {
+            throw new IllegalBorrowException();
+        }
+
+        if(this.getState() == DocumentState.RESERVED.getId() && !this.command.getSubscriber().equals(ab)) {
+            throw new DocumentAlreadyBookedException();
+        }
 
         try {
             this.command = new Command(ab, this, (Date) Calendar.getInstance().getTime());
@@ -68,7 +89,11 @@ public class Document extends AbstractDocument {
     }
 
     public void retour() {
-        //todo
+        
+        if(this.getState() != DocumentState.BORROWED.getId()) {
+            throw new IllegalReturnException();
+        }
+
         try {
             this.command.remove();
             this.setState(DocumentState.FREE);
@@ -93,4 +118,15 @@ public class Document extends AbstractDocument {
         new DocumentModel().save(this);
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        DocumentState ds = DocumentState.fromInt(this.state);
+        if (ds == null) ds = DocumentState.UNKNOWN;
+
+        sb.append("[").append(ds.getState()).append("] ").append(this.getId()).append(" - ").append(this.title);
+
+        return sb.toString();
+    }
 }
