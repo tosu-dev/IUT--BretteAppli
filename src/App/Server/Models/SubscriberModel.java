@@ -19,7 +19,7 @@ public class SubscriberModel extends Model {
         int subscriberId = subscriber.getId();
         boolean subscriberBanState = subscriber.isBanned();
 
-        PreparedStatement res = DatabaseManager.connect().prepareStatement("UPDATE subscriber SET isBanned = ?, birthdate = NOW() WHERE id = ?");
+        PreparedStatement res = DatabaseManager.connect().prepareStatement("UPDATE subscriber SET isBanned = ?, bannedDate = NOW() WHERE id = ?");
         res.setBoolean(1, subscriberBanState);
         res.setInt(2, subscriberId);
 

@@ -4,6 +4,7 @@ import App.Server.Entities.Document;
 import App.Server.Entities.Interfaces.Entity;
 import App.Server.Managers.BigDataManager;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -15,7 +16,7 @@ public class EntityUtils {
             entityStream = entityStream.filter(entity -> !Document.class.getName().equals(entity.getClass().getName()));
         }
 
-        return entityStream.toList();
+        return entityStream.sorted(Comparator.comparingInt(Entity::getId)).toList();
     }
 
     public static Entity getEntityById(Class<? extends Entity> className, int id, boolean excludeDocument) {

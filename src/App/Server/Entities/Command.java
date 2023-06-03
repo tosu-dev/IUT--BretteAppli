@@ -4,9 +4,9 @@ import App.Server.Entities.Interfaces.Entity;
 import App.Server.Models.CommandModel;
 import App.Server.Utils.EntityUtils;
 
-import java.util.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 
 public class Command implements Entity {
 
@@ -29,6 +29,10 @@ public class Command implements Entity {
         if (this.subscriber != null && this.document != null && this.date != null) {
             this.save();
         }
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getId() {

@@ -1,9 +1,15 @@
 package App.Server.Entities;
 
 import App.Server.Entities.Interfaces.Entity;
+import App.Server.Exceptions.BannedUserException;
+import App.Server.Exceptions.LimitReturnTimeExceeded;
+import App.Server.Managers.TimerTaskManager;
 import App.Server.Models.SubscriberModel;
-import App.Server.Utils.ageUtils;
+import App.Server.Timers.BanUserTimer;
+import App.Server.Timers.ReservationTimer;
+import App.Server.Utils.TimeUtils;
 
+import javax.naming.TimeLimitExceededException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
@@ -20,6 +26,10 @@ public class Abonne implements Entity {
     private boolean isBanned;
 
     public Abonne() {
+    }
+
+    private String getBanUserTimerName() {
+        return Abonne.PREFIX + BanUserTimer.getInstance().getName() + "-" + this.getId();
     }
 
     public int getId() {
@@ -40,6 +50,19 @@ public class Abonne implements Entity {
 
     public Date getBirthdate() {
         return birthdate;
+    }
+
+    public void ban() throws SQLException {
+        this.isBanned = true;
+        this.save();
+        TimerTaskManager.schedule(this.getBanUserTimerName(), new BanUserTimer(this));
+
+        throw new LimitReturnTimeExceeded();
+    }
+
+    public void unban() throws SQLException {
+        this.isBanned = false;
+        this.save();
     }
 
     public boolean isBanned() {
@@ -75,7 +98,7 @@ public class Abonne implements Entity {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        boolean isAdult = ageUtils.hasAge(this.getBirthdate());
+        boolean isAdult = TimeUtils.hasAge(this.getBirthdate());
 
         return sb.append(this.getId())
                  .append(" - ")

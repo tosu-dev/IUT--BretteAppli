@@ -2,8 +2,9 @@ package App.Server.Utils;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
-public class ageUtils {
+public class TimeUtils {
 
     private static final int AGE_ADULT = 16;
 
@@ -21,4 +22,10 @@ public class ageUtils {
 
     }
 
+    public static long getTimeElapsedFromNow(Date date) {
+
+        long differenceInMillis = System.currentTimeMillis() - date.getTime();
+
+        return TimeUnit.MILLISECONDS.toMinutes(differenceInMillis);
+    }
 }

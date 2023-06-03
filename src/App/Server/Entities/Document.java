@@ -7,7 +7,9 @@ import App.Server.Exceptions.IllegalBorrowException;
 import App.Server.Exceptions.IllegalReturnException;
 import App.Server.Managers.TimerTaskManager;
 import App.Server.Models.DocumentModel;
+import App.Server.Services.Borrow.BorrowService;
 import App.Server.Timers.ReservationTimer;
+import App.Server.Utils.TimeUtils;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,7 +23,7 @@ public class Document extends AbstractDocument {
     private final static String  PREFIX = "DOC-";
 
     private String getReservationTimerName() {
-        return Document.PREFIX + ReservationTimer.getInstance().getName();
+        return Document.PREFIX + ReservationTimer.getInstance().getName() + "-" + this.getId();
     }
 
     private void checkIfUserIsBanned(Abonne ab) {
@@ -113,8 +115,13 @@ public class Document extends AbstractDocument {
         }
 
         try {
+            Abonne subscriber = this.getCommand().getSubscriber();
             this.command.remove();
             this.setState(DocumentState.FREE);
+
+            if(TimeUtils.getTimeElapsedFromNow(this.getCommand().getDate()) >= BorrowService.BORROW_LIMIT_TIME) {
+                subscriber.ban();
+            }
         } catch (SQLException ignored) {
 
         }

@@ -12,6 +12,9 @@ import java.util.List;
 
 public class BorrowService extends Service {
 
+    public static final int BORROW_LIMIT_TIME = 63990; //one month and two weeks in minutes
+
+
     public BorrowService(Socket socket) throws IOException {
         super(socket);
     }

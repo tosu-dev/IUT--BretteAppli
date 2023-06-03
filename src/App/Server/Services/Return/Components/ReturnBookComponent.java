@@ -14,6 +14,7 @@ public class ReturnBookComponent implements Component {
         try {
             AbstractDocument document = (AbstractDocument) ProtocolUtils.askEntityById(service, AbstractDocument.class, "Numéro du document incorrect. Vueillez réessayer.", "Entrez le numéro du document que vous souhaitez retourner :");
 
+            //Todo , vérifier si le document est retourné trop tard / est abimé [Ajouter de l'aléatoire pour le simuler]
             document.retour();
             service.send("Félicitation ! Vous avez bien retourné " + document.getTitle());
 

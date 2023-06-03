@@ -8,7 +8,7 @@ CREATE TABLE bretteapplidb.Subscriber (
     CONSTRAINT PK_Subscriber PRIMARY KEY (id)
 );
 
-CREATE TABLE bretteapplidb.TypeDocumentState (
+CREATE TABLE bretteapplidb.state (
     id INT AUTO_INCREMENT,
     label VARCHAR(20) NOT NULL,
     CONSTRAINT PK_TypeDocumentState PRIMARY KEY (id)
@@ -19,7 +19,7 @@ CREATE TABLE bretteapplidb.Document (
     title VARCHAR(100) NOT NULL,
     state INT NOT NULL,
     CONSTRAINT PK_Document PRIMARY KEY (id),
-    CONSTRAINT FK_Document_state FOREIGN KEY (state) REFERENCES TypeDocumentState(id)
+    CONSTRAINT FK_Document_state FOREIGN KEY (state) REFERENCES state(id)
 );
 
 CREATE TABLE bretteapplidb.Command (

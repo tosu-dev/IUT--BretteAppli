@@ -19,4 +19,6 @@ public abstract class AbstractDocument implements Document, Entity {
     public String getTitle() {
         return title;
     }
+
+    public abstract Command getCommand();
 }

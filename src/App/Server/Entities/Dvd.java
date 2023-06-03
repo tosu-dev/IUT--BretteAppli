@@ -4,7 +4,7 @@ import App.Server.Entities.Interfaces.Entity;
 import App.Server.Exceptions.AgeRestrictionException;
 import App.Server.Models.DvdModel;
 import App.Server.Utils.EntityUtils;
-import App.Server.Utils.ageUtils;
+import App.Server.Utils.TimeUtils;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -30,7 +30,7 @@ public class Dvd extends AbstractDocument {
     }
 
     public void reservation(Abonne ab) {
-        if (this.adult && !ageUtils.hasAge(ab.getBirthdate())) {
+        if (this.adult && !TimeUtils.hasAge(ab.getBirthdate())) {
             throw new AgeRestrictionException();
         }
 
@@ -38,7 +38,7 @@ public class Dvd extends AbstractDocument {
     }
 
     public void emprunt(Abonne ab) {
-        if (this.adult && !ageUtils.hasAge(ab.getBirthdate())) {
+        if (this.adult && !TimeUtils.hasAge(ab.getBirthdate())) {
             throw new AgeRestrictionException();
         }
 
@@ -59,6 +59,10 @@ public class Dvd extends AbstractDocument {
 
     public String getIdentifier() {
         return PREFIX + numero;
+    }
+
+    public Command getCommand() {
+        return this.document.getCommand();
     }
 
     public void save() throws SQLException {
