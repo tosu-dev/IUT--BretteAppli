@@ -23,8 +23,6 @@ public abstract class Link implements Runnable {
         this.protocol = protocol.getConstructor(Socket.class).newInstance(socket);
     }
 
-    abstract protected void execute() throws IOException;
-
     public String read() throws IOException {
         return this.protocol.read();
     }

@@ -19,13 +19,15 @@ public class DocumentModel extends Model {
         Document doc = (Document) entity;
 
         int documentNumber = doc.getId();
-        int documentState = doc.getState();
+        int documentState  = doc.getState();
 
         PreparedStatement res = DatabaseManager.connect().prepareStatement("UPDATE document SET state = ? WHERE id = ?");
         res.setInt(1, documentState);
         res.setInt(2, documentNumber);
 
         res.executeUpdate();
+
+        DatabaseManager.commit();
     }
 
     @Override

@@ -4,7 +4,7 @@ CREATE TABLE bretteapplidb.Subscriber (
     lastname VARCHAR(50) NOT NULL,
     birthdate DATE NOT NULL,
     isBanned INT(1) DEFAULT 0,
-    bannedDate DATE,
+    bannedDate DATETIME,
     CONSTRAINT PK_Subscriber PRIMARY KEY (id)
 );
 
@@ -26,7 +26,7 @@ CREATE TABLE bretteapplidb.Command (
     id INTEGER AUTO_INCREMENT,
     idSubscriber INTEGER NOT NULL,
     idDocument INTEGER NOT NULL,
-    date Date NOT NULL,
+    date DATETIME NOT NULL,
     CONSTRAINT PK_Command PRIMARY KEY (id),
     CONSTRAINT FK_Command_idSubscriber FOREIGN KEY (idSubscriber) REFERENCES Subscriber(id),
     CONSTRAINT FK_Command_idDocument FOREIGN KEY (idDocument) REFERENCES Document(id),

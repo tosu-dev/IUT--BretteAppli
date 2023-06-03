@@ -27,7 +27,6 @@ public class ClientFactory {
             default -> new ClientManager(DEFAULT_HOST, DEFAULT_PORT);
         };
 
-        cm.send("CONNECTED TO SERVER");
         System.out.println(cm.read());
 
         return cm;

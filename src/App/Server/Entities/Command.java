@@ -5,7 +5,7 @@ import App.Server.Models.DocumentModel;
 import App.Server.Models.CommandModel;
 import App.Server.Models.SubscriberModel;
 
-import java.sql.Date;
+import java.util.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -13,7 +13,7 @@ public class Command implements Entity {
 
     private static final String PREFIX = "COM-";
 
-    private int      id;
+    private int      id = 0;
     private Abonne   subscriber;
     private Document document;
     private Date     date;

@@ -3,7 +3,7 @@ package App.Server.Utils;
 import java.util.Calendar;
 import java.util.Date;
 
-public class dvdUtils {
+public class ageUtils {
 
     private static final int AGE_ADULT = 16;
 

@@ -26,6 +26,8 @@ public class SubscriberModel extends Model {
         res.setInt(2, subscriberId);
 
         res.executeUpdate();
+
+        DatabaseManager.commit();
     }
 
     @Override

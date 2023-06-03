@@ -2,23 +2,28 @@ package App.Server.Managers;
 
 import App.Server.Entities.Interfaces.Entity;
 
-import java.util.HashMap;
-import java.util.Vector;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Stream;
 
 public class BigDataManager {
 
-    public final static HashMap<String, Entity> bigData = new HashMap<>();
+    public final static Map<String, Entity> bigData = new ConcurrentHashMap<>();
 
     public static void add(Entity entity) {
-        bigData.put(entity.getIdentifier(), entity);
+        BigDataManager.bigData.put(entity.getIdentifier(), entity);
     }
 
-    public static Vector<Entity> getAll() {
-        return new Vector<>(bigData.values());
+    public static Map<String, Entity> getMap() {
+        return BigDataManager.bigData;
     }
 
-    public static Entity get(String identifier) {
-        return bigData.get(identifier);
+    public static List<Entity> getAll() {
+        return new Vector<>(BigDataManager.bigData.values());
+    }
+
+    public static Entity getByIdentifier(String identifier) {
+        return BigDataManager.bigData.get(identifier);
     }
 
 }

@@ -5,7 +5,9 @@ import App.Server.Exceptions.BannedUserException;
 import App.Server.Exceptions.DocumentAlreadyBookedException;
 import App.Server.Exceptions.IllegalBorrowException;
 import App.Server.Exceptions.IllegalReturnException;
+import App.Server.Managers.TimerTaskManager;
 import App.Server.Models.DocumentModel;
+import App.Server.Timers.ReservationTimer;
 
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -14,17 +16,21 @@ import java.util.Calendar;
 
 public class Document extends AbstractDocument {
 
-    private final static String PREFIX = "DOC-";
-    protected final Object lock = new Object();
+    private              int     state;
+    private              Command command;
+    protected final      Object  lock   = new Object();
+    private final static String  PREFIX = "DOC-";
 
-    private int state;
-    private Command command;
+    private String getReservationTimerName() {
+        return Document.PREFIX + ReservationTimer.getInstance().getName();
+    }
 
     private void checkIfUserIsBanned(Abonne ab) {
-        if(ab.isBanned()) {
+        if (ab.isBanned()) {
             throw new BannedUserException();
         }
     }
+
 
     public void setState(DocumentState state) throws SQLException {
         this.state = state.getId();
@@ -52,17 +58,16 @@ public class Document extends AbstractDocument {
     }
 
     public void reservation(Abonne ab) {
-        //TODO TIMER
-
         this.checkIfUserIsBanned(ab);
 
-        if(this.state != DocumentState.FREE.getId()) {
+        if (this.state != DocumentState.FREE.getId()) {
             throw new DocumentAlreadyBookedException();
         }
 
         try {
-            this.command = new Command(ab, this, (Date) Calendar.getInstance().getTime());
+            this.command = new Command(ab, this, Calendar.getInstance().getTime());
             this.setState(DocumentState.RESERVED);
+            TimerTaskManager.schedule(this.getReservationTimerName(), new ReservationTimer(this));
         } catch (SQLException ignored) {
 
         }
@@ -72,16 +77,21 @@ public class Document extends AbstractDocument {
 
         this.checkIfUserIsBanned(ab);
 
-        if(this.getState() == DocumentState.BORROWED.getId()) {
+        if (this.getState() == DocumentState.BORROWED.getId()) {
             throw new IllegalBorrowException();
         }
 
-        if(this.getState() == DocumentState.RESERVED.getId() && !this.command.getSubscriber().equals(ab)) {
-            throw new DocumentAlreadyBookedException();
+        if (this.getState() == DocumentState.RESERVED.getId()) {
+            if (!this.command.getSubscriber().equals(ab)) {
+                throw new DocumentAlreadyBookedException();
+            }
+
+            TimerTaskManager.abort(this.getReservationTimerName());
         }
 
+
         try {
-            this.command = new Command(ab, this, (Date) Calendar.getInstance().getTime());
+            this.command = new Command(ab, this, Calendar.getInstance().getTime());
             this.setState(DocumentState.BORROWED);
         } catch (SQLException ignored) {
 
@@ -89,8 +99,8 @@ public class Document extends AbstractDocument {
     }
 
     public void retour() {
-        
-        if(this.getState() != DocumentState.BORROWED.getId()) {
+
+        if (this.getState() != DocumentState.BORROWED.getId()) {
             throw new IllegalReturnException();
         }
 
@@ -100,6 +110,21 @@ public class Document extends AbstractDocument {
         } catch (SQLException ignored) {
 
         }
+    }
+
+    public void resetReservation() {
+
+        if (this.getState() != DocumentState.RESERVED.getId()) {
+            return;
+        }
+
+        TimerTaskManager.remove(this.getReservationTimerName());
+        try {
+            this.command.remove();
+            this.setState(DocumentState.FREE);
+        } catch (SQLException ignored) {
+        }
+
     }
 
     public Entity setFromResultSet(ResultSet res) throws SQLException {

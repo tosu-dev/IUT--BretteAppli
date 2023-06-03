@@ -26,8 +26,9 @@ public abstract class Model {
     public Entity getById(int id) {
         ResultSet res = getResultForId(getTableName(), id);
         try {
-            if (res.next())
+            if (res.next()) {
                 return getEntityFromResultSet(res);
+            }
             return null;
 
         } catch (SQLException e) {

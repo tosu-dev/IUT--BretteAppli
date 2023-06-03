@@ -6,7 +6,7 @@ import App.Server.Entities.Document;
 import App.Server.Entities.Interfaces.Entity;
 import App.Server.Managers.DatabaseManager;
 
-import java.sql.Date;
+import java.util.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
@@ -20,12 +20,12 @@ public class CommandModel extends Model {
         res.close();
     }
 
-    private void editCommand(int commandId, Abonne subscriber, Document document, Date date) throws SQLException {
-        PreparedStatement res = DatabaseManager.connect().prepareStatement("UPDATE command SET idSubscriber = ?, idDocument = ?, date = ? WHERE id = ?");
+    private void addCommand(int commandId, Abonne subscriber, Document document, Date date) throws SQLException {
+        this.deleteCommand(commandId);
+
+        PreparedStatement res = DatabaseManager.connect().prepareStatement("INSERT INTO command(idSubscriber, idDocument, date) VALUES(?, ?, NOW())");
         res.setInt(1, subscriber.getId());
         res.setInt(2, document.getId());
-        res.setDate(3, date);
-        res.setInt(4, commandId);
 
         res.executeUpdate();
         res.close();
@@ -45,7 +45,7 @@ public class CommandModel extends Model {
             return;
         }
 
-        this.editCommand(id, subscriber, document, date);
+        this.addCommand(id, subscriber, document, date);
     }
 
     protected String getTableName() {

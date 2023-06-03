@@ -8,9 +8,9 @@ public class DatabaseManager {
 
     private static Connection connectionInstance;
 
-    private static String CONNECTION_HOST = "localhost";
-    private static int CONNECTION_PORT = 3306;
-    private static String CONNECTION_USER = "root";
+    private static String CONNECTION_HOST     = "localhost";
+    private static int    CONNECTION_PORT     = 3306;
+    private static String CONNECTION_USER     = "root";
     private static String CONNECTION_PASSWORD = "";
     private static String CONNECTION_DATABASE = "bretteapplidb";
 
@@ -52,6 +52,10 @@ public class DatabaseManager {
         } catch (ClassNotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static void commit() throws SQLException {
+        DatabaseManager.connect().commit();
     }
 
     // disconnect (optional)

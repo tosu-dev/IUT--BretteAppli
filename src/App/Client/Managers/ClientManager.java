@@ -23,8 +23,4 @@ public class ClientManager extends Link {
     public BufferedReader getInput() {
         return new BufferedReader(new InputStreamReader(System.in));
     }
-
-    @Override
-    protected void execute() throws IOException {
-    }
 }
