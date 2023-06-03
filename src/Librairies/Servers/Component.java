@@ -1,9 +1,9 @@
 package Librairies.Servers;
 
+import java.io.IOException;
+
 public interface Component {
 
-    default void call(Service service) {
-        service.send("");
-    };
+    void call(Service service) throws IOException;
 
 }

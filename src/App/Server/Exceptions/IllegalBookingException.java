@@ -3,9 +3,9 @@ package App.Server.Exceptions;
 import App.Server.Entities.Document;
 import App.Server.Entities.Interfaces.Entity;
 
-public class IllegalBorrowException extends CustomException {
+public class IllegalBookingException extends CustomException {
 
-    public IllegalBorrowException(Entity entity) {
+    public IllegalBookingException(Entity entity) {
         super(entity);
         assert Document.class.isAssignableFrom(entity.getClass());
     }
@@ -15,6 +15,6 @@ public class IllegalBorrowException extends CustomException {
         //Todo, show final date to book :p
         Document document = (Document) this.getRelatedEntity();
 
-        return "Ce document est déjà emprunté, veuillez réessayer plus tard.";
+        return "Ce document est déjà reservé, veuillez réessayer plus tard.";
     }
 }

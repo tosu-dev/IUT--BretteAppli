@@ -2,14 +2,13 @@ package App.Server.Entities;
 
 import App.Server.Entities.Interfaces.Entity;
 import App.Server.Exceptions.BannedUserException;
-import App.Server.Exceptions.DocumentAlreadyBookedException;
+import App.Server.Exceptions.IllegalBookingException;
 import App.Server.Exceptions.IllegalBorrowException;
 import App.Server.Exceptions.IllegalReturnException;
 import App.Server.Managers.TimerTaskManager;
 import App.Server.Models.DocumentModel;
 import App.Server.Timers.ReservationTimer;
 
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Calendar;
@@ -41,6 +40,15 @@ public class Document extends AbstractDocument {
         return this.state;
     }
 
+    public Command getCommand() {
+        return this.command;
+    }
+
+    public void setCommand(Command command) {
+        this.command = command;
+        //We don't need to set a "this.save" !!
+    }
+
     public Abonne empruntePar() {
         if (this.state == DocumentState.BORROWED.getId()) {
             return this.command.getSubscriber();
@@ -61,7 +69,7 @@ public class Document extends AbstractDocument {
         this.checkIfUserIsBanned(ab);
 
         if (this.state != DocumentState.FREE.getId()) {
-            throw new DocumentAlreadyBookedException();
+            throw new IllegalBookingException(this);
         }
 
         try {
@@ -78,12 +86,12 @@ public class Document extends AbstractDocument {
         this.checkIfUserIsBanned(ab);
 
         if (this.getState() == DocumentState.BORROWED.getId()) {
-            throw new IllegalBorrowException();
+            throw new IllegalBorrowException(this);
         }
 
         if (this.getState() == DocumentState.RESERVED.getId()) {
             if (!this.command.getSubscriber().equals(ab)) {
-                throw new DocumentAlreadyBookedException();
+                throw new IllegalBookingException(this);
             }
 
             TimerTaskManager.abort(this.getReservationTimerName());

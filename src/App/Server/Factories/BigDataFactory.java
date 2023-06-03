@@ -12,6 +12,7 @@ public class BigDataFactory {
     private static final Vector<Model> models = new Vector<>();
 
     public static void create() {
+        models.add(new DocumentModel());
         models.add(new DvdModel());
         models.add(new SubscriberModel());
         models.add(new CommandModel());

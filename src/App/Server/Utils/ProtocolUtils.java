@@ -1,7 +1,6 @@
 package App.Server.Utils;
 
 import App.Server.Entities.Interfaces.Entity;
-import Librairies.Communication.Protocol;
 import Librairies.Servers.Service;
 
 import java.io.IOException;
@@ -9,6 +8,11 @@ import java.io.IOException;
 public class ProtocolUtils {
 
     private static final String DEFAULT_MESSAGE_ERROR = "Entrée incorrecte, veuillez réessayer.";
+    private static final String DEFAULT_ASK_ERROR = "Entrez votre valeur : ";
+
+    public static String askToRetry(Service service) throws IOException {
+        return ProtocolUtils.askToRetry(service, DEFAULT_MESSAGE_ERROR, DEFAULT_ASK_ERROR);
+    }
 
     public static String askToRetry(Service service, String messageError, String askMessage) throws IOException {
         service.send(messageError + System.lineSeparator() + askMessage);

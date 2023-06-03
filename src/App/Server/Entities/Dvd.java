@@ -4,6 +4,7 @@ import App.Server.Entities.Interfaces.Entity;
 import App.Server.Exceptions.AgeRestrictionException;
 import App.Server.Models.DocumentModel;
 import App.Server.Models.DvdModel;
+import App.Server.Utils.EntityUtils;
 import App.Server.Utils.ageUtils;
 
 import java.sql.ResultSet;
@@ -51,9 +52,8 @@ public class Dvd extends AbstractDocument {
 
     public Entity setFromResultSet(ResultSet res) throws SQLException {
         this.numero = res.getInt("id");
-        this.document = (Document) (new DocumentModel()).getById(this.numero);
+        this.document = (Document) EntityUtils.getEntityById(Document.class, this.numero, false);
         this.adult = res.getBoolean("adult");
-
 
         return this;
     }

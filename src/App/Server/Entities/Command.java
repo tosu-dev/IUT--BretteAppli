@@ -4,6 +4,7 @@ import App.Server.Entities.Interfaces.Entity;
 import App.Server.Models.DocumentModel;
 import App.Server.Models.CommandModel;
 import App.Server.Models.SubscriberModel;
+import App.Server.Utils.EntityUtils;
 
 import java.util.Date;
 import java.sql.ResultSet;
@@ -56,12 +57,12 @@ public class Command implements Entity {
 
     public Entity setFromResultSet(ResultSet res) throws SQLException {
         this.id = res.getInt("id");
-        this.subscriber = (Abonne) (new SubscriberModel()).getById(res.getInt("idSubscriber"));
-        this.document = (Document) (new DocumentModel()).getById(res.getInt("idDocument"));
+        this.subscriber = (Abonne) EntityUtils.getEntityById(Abonne.class, res.getInt("idSubscriber"));
+        this.document = (Document) EntityUtils.getEntityById(Document.class, res.getInt("idDocument"), false);
 
         this.date = res.getDate("date");
 
-
+        this.document.setCommand(this);
         return this;
     }
 

@@ -51,7 +51,7 @@ public class Abonne implements Entity {
         this.id = res.getInt("id");
         this.firstname = res.getString("firstname");
         this.lastname = res.getString("lastname");
-        this.birthdate = (java.util.Date) res.getDate("birthdate");
+        this.birthdate = res.getDate("birthdate");
         this.isBanned = res.getBoolean("isBanned");
 
         return this;
