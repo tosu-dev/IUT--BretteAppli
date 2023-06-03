@@ -2,7 +2,6 @@ package App.Server.Entities;
 
 import App.Server.Entities.Interfaces.Entity;
 import App.Server.Exceptions.AgeRestrictionException;
-import App.Server.Models.DocumentModel;
 import App.Server.Models.DvdModel;
 import App.Server.Utils.EntityUtils;
 import App.Server.Utils.ageUtils;

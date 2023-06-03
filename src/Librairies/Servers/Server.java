@@ -4,7 +4,6 @@ import java.net.Socket;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.lang.reflect.InvocationTargetException;
-import java.net.SocketException;
 
 public abstract class Server implements Runnable {
 

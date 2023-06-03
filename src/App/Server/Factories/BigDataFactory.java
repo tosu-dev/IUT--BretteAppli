@@ -17,11 +17,8 @@ public class BigDataFactory {
         models.add(new SubscriberModel());
         models.add(new CommandModel());
 
-        try {
-            for (Model model: models)
-                model.send();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        for (Model model: models) {
+            model.send();
         }
     }
 

@@ -4,7 +4,6 @@ import App.Server.Entities.Interfaces.Entity;
 import App.Server.Managers.BigDataManager;
 import App.Server.Managers.DatabaseManager;
 
-import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,7 +12,7 @@ import java.util.Vector;
 
 public abstract class Model {
 
-    protected Connection connection;
+    protected final Connection connection;
 
     public Model() {
         connection = DatabaseManager.connect();
@@ -36,8 +35,6 @@ public abstract class Model {
         }
     }
 
-    ;
-
     public Vector<Entity> getAll() {
         Vector<Entity> vector = new Vector<>();
         ResultSet      res    = getResultForAll(getTableName());
@@ -52,9 +49,7 @@ public abstract class Model {
         }
     }
 
-    ;
-
-    public void send() throws SQLException {
+    public void send() {
         Vector<Entity> entities = this.getAll();
         entities.forEach(BigDataManager::add);
     }

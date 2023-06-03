@@ -4,11 +4,10 @@ import App.Server.Entities.Interfaces.Entity;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Stream;
 
 public class BigDataManager {
 
-    public final static Map<String, Entity> bigData = new ConcurrentHashMap<>();
+    private final static Map<String, Entity> bigData = new ConcurrentHashMap<>();
 
     public static void add(Entity entity) {
         BigDataManager.bigData.put(entity.getIdentifier(), entity);

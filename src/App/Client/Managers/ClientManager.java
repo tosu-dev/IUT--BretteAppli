@@ -1,6 +1,5 @@
 package App.Client.Managers;
 
-import Librairies.Communication.Protocol;
 import Librairies.Communication.WankaProtocol;
 import Librairies.Servers.Link;
 

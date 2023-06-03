@@ -4,7 +4,6 @@ import App.Server.Entities.Interfaces.Entity;
 import App.Server.Entities.Document;
 import App.Server.Managers.DatabaseManager;
 
-import java.lang.reflect.InvocationTargetException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 

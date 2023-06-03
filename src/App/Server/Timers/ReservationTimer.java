@@ -2,8 +2,6 @@ package App.Server.Timers;
 
 import App.Server.Entities.Document;
 
-import java.util.TimerTask;
-
 public class ReservationTimer extends AbstractTimer {
     private final  Document         reservedDocument;
     private static ReservationTimer timerInstance;

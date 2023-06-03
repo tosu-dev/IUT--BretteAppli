@@ -8,9 +8,6 @@ import Librairies.Servers.Component;
 import Librairies.Servers.Service;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 public class BorrowBookComponent implements Component {
 

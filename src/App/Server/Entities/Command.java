@@ -1,9 +1,7 @@
 package App.Server.Entities;
 
 import App.Server.Entities.Interfaces.Entity;
-import App.Server.Models.DocumentModel;
 import App.Server.Models.CommandModel;
-import App.Server.Models.SubscriberModel;
 import App.Server.Utils.EntityUtils;
 
 import java.util.Date;

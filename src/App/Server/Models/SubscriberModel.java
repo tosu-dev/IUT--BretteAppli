@@ -1,13 +1,11 @@
 package App.Server.Models;
 
 import App.Server.Entities.Abonne;
-import App.Server.Entities.Document;
 import App.Server.Entities.Interfaces.Entity;
 import App.Server.Managers.DatabaseManager;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.concurrent.Flow;
 
 public class SubscriberModel extends Model {
 

@@ -3,12 +3,8 @@ package App.Client;
 import App.Client.Factories.ClientFactory;
 import App.Client.Managers.ClientManager;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
-import java.net.Socket;
 
 public class Client {
 

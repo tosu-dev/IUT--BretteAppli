@@ -4,7 +4,6 @@ import App.Server.Entities.Interfaces.Entity;
 import App.Server.Models.SubscriberModel;
 import App.Server.Utils.ageUtils;
 
-import java.security.PublicKey;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;

@@ -6,7 +6,6 @@ import Librairies.Communication.WankaProtocol;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.Socket;
-import java.net.SocketException;
 
 public abstract class Link implements Runnable {
 

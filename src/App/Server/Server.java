@@ -1,11 +1,8 @@
 package App.Server;
 
-import App.Server.Entities.AbstractDocument;
 import App.Server.Factories.BigDataFactory;
 import App.Server.Factories.DatabaseFactory;
 import App.Server.Factories.ServerFactory;
-import App.Server.Managers.BigDataManager;
-import App.Server.Utils.EntityUtils;
 
 import java.lang.reflect.InvocationTargetException;
 
