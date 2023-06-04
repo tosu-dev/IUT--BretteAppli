@@ -29,6 +29,6 @@ public class ReservationTimer extends AbstractTimer {
     }
 
     public long getDuration() {
-        return 15000; //1m
+        return 60000 * 120; //2h
     }
 }

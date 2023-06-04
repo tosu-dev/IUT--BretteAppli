@@ -21,6 +21,7 @@ public class ReturnBookComponent implements Component {
                              "Vous pouvez venir le chercher à la bibliothèque." + System.lineSeparator();
             try {
                 EmailManager.send("illutech.badiiix@gmail.com", "[Rappel] Un document que vous souhaitez viens de revenir !", message);
+                ReminderManager.removeReminder(document, reminder);
             } catch (MessagingException | UnsupportedEncodingException e) {
                 throw new RuntimeException(e);
             }

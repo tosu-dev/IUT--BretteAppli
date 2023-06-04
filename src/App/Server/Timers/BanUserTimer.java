@@ -36,6 +36,6 @@ public class BanUserTimer extends AbstractTimer {
 
     //one month in milliseconds
     public long getDuration() {
-        return 2592000000L; //1m
+        return 2592000000L; //1m and two weeks
     }
 }
