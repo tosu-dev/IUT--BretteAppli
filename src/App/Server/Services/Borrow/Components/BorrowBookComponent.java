@@ -33,6 +33,8 @@ public class BorrowBookComponent implements Component {
         } catch (CustomException e) {
             service.send(e.errorMessage());
         } catch (IOException ignored) {
+        } finally {
+            service.stopWaiting();
         }
 
     }

@@ -1,15 +1,12 @@
 package App.Server.Entities;
 
 import App.Server.Entities.Interfaces.Entity;
-import App.Server.Exceptions.BannedUserException;
 import App.Server.Exceptions.LimitReturnTimeExceeded;
 import App.Server.Managers.TimerTaskManager;
 import App.Server.Models.SubscriberModel;
 import App.Server.Timers.BanUserTimer;
-import App.Server.Timers.ReservationTimer;
 import App.Server.Utils.TimeUtils;
 
-import javax.naming.TimeLimitExceededException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
@@ -84,7 +81,9 @@ public class Abonne implements Entity {
     }
 
     public void save() throws SQLException {
-        new SubscriberModel().save(this);
+        synchronized (this) {
+            new SubscriberModel().save(this);
+        }
     }
 
     @Override

@@ -11,6 +11,12 @@ import java.util.List;
 
 public abstract class Service extends Link {
 
+    private boolean needToWait = true;
+
+    public void stopWaiting() {
+        this.needToWait = false;
+    }
+
     public Service(Socket socket, Class<? extends Protocol> protocol) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         super(socket, protocol);
     }
@@ -30,6 +36,8 @@ public abstract class Service extends Link {
                 for(Class<? extends Component> component: this.componentList()) {
                     component.getConstructor().newInstance().call(this);
                 }
+
+                while (this.needToWait);
             }
         } catch (SocketException ignored) {
         } catch (IOException e) {

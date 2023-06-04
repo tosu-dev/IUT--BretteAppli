@@ -35,7 +35,7 @@ public class ProtocolUtils {
     public static boolean askBoolean(Service service, String messageError, String askMessage) throws IOException {
         String answer = service.read();
 
-        while (!answer.equals("oui") && !answer.equals("no")) {
+        while (!answer.equals("oui") && !answer.equals("non")) {
             answer = ProtocolUtils.askToRetry(service, messageError, askMessage);
         }
 

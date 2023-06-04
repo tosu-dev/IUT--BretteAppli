@@ -61,9 +61,7 @@ public class EmailManager {
     public static void send(String to, String subject, String message) throws MessagingException, UnsupportedEncodingException {
         Session session = Session.getInstance(EmailManager.getProperties(), EmailManager.getAuthenticator());
 
-        System.out.println("Sending email to " + to + " with subject " + subject + " and message " + message);
         Transport.send(EmailManager.createMessage(session, to, subject, message));
-        System.out.println("Email sent to " + to + " with subject " + subject + " and message " + message);
     }
 
 }

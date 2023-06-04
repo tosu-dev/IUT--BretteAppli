@@ -41,6 +41,9 @@ public class ReturnBookComponent implements Component {
         } catch (CustomException e) {
             service.send(e.errorMessage());
         } catch (IOException ignored) {
+        } finally {
+            service.stopWaiting();
         }
+
     }
 }

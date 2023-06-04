@@ -34,25 +34,38 @@ public class Document extends AbstractDocument {
 
 
     public void setState(DocumentState state) throws SQLException {
-        this.state = state.getId();
-        this.save();
+        synchronized (this.lock) {
+            this.state = state.getId();
+            this.save();
+        }
     }
 
     public int getState() {
-        return this.state;
+        synchronized (this.lock) {
+            return this.state;
+        }
+    }
+
+    public String getTitle() {
+        synchronized (this.lock) {
+            return this.title;
+        }
     }
 
     public Command getCommand() {
-        return this.command;
+        synchronized (this.lock) {
+            return this.command;
+        }
     }
 
     public void setCommand(Command command) {
-        this.command = command;
-        //We don't need to set a "this.save" !!
+        synchronized (this.lock) {
+            this.command = command;
+        }
     }
 
     public Abonne empruntePar() {
-        if (this.state == DocumentState.BORROWED.getId()) {
+        if (this.getState() == DocumentState.BORROWED.getId()) {
             return this.command.getSubscriber();
         }
 
@@ -60,7 +73,7 @@ public class Document extends AbstractDocument {
     }
 
     public Abonne reservePar() {
-        if (this.state == DocumentState.RESERVED.getId()) {
+        if (this.getState() == DocumentState.RESERVED.getId()) {
             return this.command.getSubscriber();
         }
 
@@ -70,18 +83,20 @@ public class Document extends AbstractDocument {
     public void reservation(Abonne ab) {
         this.checkIfUserIsBanned(ab);
 
-        if(this.state == DocumentState.BORROWED.getId()) {
+        if (this.getState() == DocumentState.BORROWED.getId()) {
             throw new IllegalBorrowException(this);
         }
 
-        if(this.state == DocumentState.RESERVED.getId()) {
+        if (this.getState() == DocumentState.RESERVED.getId()) {
             throw new IllegalBookingException(this);
         }
 
         try {
-            this.command = new Command(ab, this, Calendar.getInstance().getTime());
-            this.setState(DocumentState.RESERVED);
-            TimerTaskManager.schedule(this.getReservationTimerName(), new ReservationTimer(this));
+            synchronized (this.lock) {
+                this.command = new Command(ab, this, Calendar.getInstance().getTime());
+                this.setState(DocumentState.RESERVED);
+                TimerTaskManager.schedule(this.getReservationTimerName(), new ReservationTimer(this));
+            }
         } catch (SQLException ignored) {
 
         }
@@ -100,13 +115,17 @@ public class Document extends AbstractDocument {
                 throw new IllegalBookingException(this);
             }
 
-            TimerTaskManager.abort(this.getReservationTimerName());
+            synchronized (this.lock) {
+                TimerTaskManager.abort(this.getReservationTimerName());
+            }
         }
 
 
         try {
-            this.command = new Command(ab, this, Calendar.getInstance().getTime());
-            this.setState(DocumentState.BORROWED);
+            synchronized (this.lock) {
+                this.command = new Command(ab, this, Calendar.getInstance().getTime());
+                this.setState(DocumentState.BORROWED);
+            }
         } catch (SQLException ignored) {
 
         }
@@ -120,11 +139,13 @@ public class Document extends AbstractDocument {
 
         try {
             Abonne subscriber = this.getCommand().getSubscriber();
-            this.command.remove();
-            this.setState(DocumentState.FREE);
+            synchronized (this.lock) {
+                this.command.remove();
+                this.setState(DocumentState.FREE);
 
-            if(TimeUtils.getTimeElapsedFromNow(this.getCommand().getDate()) >= BorrowService.BORROW_LIMIT_TIME) {
-                subscriber.ban();
+                if (TimeUtils.getTimeElapsedFromNow(this.getCommand().getDate()) >= BorrowService.BORROW_LIMIT_TIME) {
+                    subscriber.ban();
+                }
             }
         } catch (SQLException ignored) {
 
@@ -136,12 +157,13 @@ public class Document extends AbstractDocument {
         if (this.getState() != DocumentState.RESERVED.getId()) {
             return;
         }
-
-        TimerTaskManager.remove(this.getReservationTimerName());
-        try {
-            this.command.remove();
-            this.setState(DocumentState.FREE);
-        } catch (SQLException ignored) {
+        synchronized (this.lock) {
+            TimerTaskManager.remove(this.getReservationTimerName());
+            try {
+                this.command.remove();
+                this.setState(DocumentState.FREE);
+            } catch (SQLException ignored) {
+            }
         }
 
     }
@@ -159,7 +181,9 @@ public class Document extends AbstractDocument {
     }
 
     public void save() throws SQLException {
-        new DocumentModel().save(this);
+        synchronized (this.lock) {
+            new DocumentModel().save(this);
+        }
     }
 
     @Override

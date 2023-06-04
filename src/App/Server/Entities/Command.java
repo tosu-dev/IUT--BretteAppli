@@ -32,29 +32,41 @@ public class Command implements Entity {
     }
 
     public void setId(int id) {
-        this.id = id;
+        synchronized (this) {
+            this.id = id;
+        }
     }
 
     public int getId() {
-        return this.id;
+        synchronized (this) {
+            return this.id;
+        }
     }
 
     public Abonne getSubscriber() {
-        return subscriber;
+        synchronized (this) {
+            return subscriber;
+        }
     }
 
     public Document getDocument() {
-        return document;
+        synchronized (this) {
+            return document;
+        }
     }
 
     public Date getDate() {
-        return date;
+        synchronized (this) {
+            return date;
+        }
     }
 
     public void remove() throws SQLException {
-        this.subscriber = null;
-        this.document = null;
-        this.save();
+        synchronized (this) {
+            this.subscriber = null;
+            this.document = null;
+            this.save();
+        }
     }
 
     public Entity setFromResultSet(ResultSet res) throws SQLException {
@@ -73,6 +85,8 @@ public class Command implements Entity {
     }
 
     public void save() throws SQLException {
-        (new CommandModel()).save(this);
+        synchronized (this) {
+            (new CommandModel()).save(this);
+        }
     }
 }

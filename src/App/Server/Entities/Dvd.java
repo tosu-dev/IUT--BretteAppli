@@ -66,7 +66,9 @@ public class Dvd extends AbstractDocument {
     }
 
     public void save() throws SQLException {
-        new DvdModel().save(this);
+        synchronized (this.document.lock) {
+            new DvdModel().save(this);
+        }
     }
 
     @Override

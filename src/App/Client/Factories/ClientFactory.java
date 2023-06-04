@@ -1,6 +1,7 @@
 package App.Client.Factories;
 
 import App.Client.Managers.ClientManager;
+import App.Client.Managers.MusicManager;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -37,13 +38,31 @@ public class ClientFactory {
      * @param cm global Client Manager
      */
     public static void manage(ClientManager cm) throws IOException {
+        boolean sendMessage = false;
+
         while (true) {
-            cm.send(cm.getInput().readLine());
+
+            cm.send(sendMessage ? "" : cm.getInput().readLine());
+
+             sendMessage = false;
             String response = cm.read();
 
             if (response.equals("stop")) break;
 
+            if(response.startsWith("[STARTMUSIC]")) {
+                MusicManager.play();
+                response = response.replace("[STARTMUSIC]", "").trim();
+            }
+            if(response.startsWith("[STOPMUSIC]")) {
+                MusicManager.stop();
+                response = response.replace("[STOPMUSIC]", "").trim();
+            }
+            if(response.endsWith("[SEND]"))  {
+                response = response.replace("[SEND]", "").trim();
+                sendMessage = true;
+            }
             System.out.println(response);
+
         }
     }
 
