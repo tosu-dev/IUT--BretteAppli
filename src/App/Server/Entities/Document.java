@@ -70,7 +70,11 @@ public class Document extends AbstractDocument {
     public void reservation(Abonne ab) {
         this.checkIfUserIsBanned(ab);
 
-        if (this.state != DocumentState.FREE.getId()) {
+        if(this.state == DocumentState.BORROWED.getId()) {
+            throw new IllegalBorrowException(this);
+        }
+
+        if(this.state == DocumentState.RESERVED.getId()) {
             throw new IllegalBookingException(this);
         }
 

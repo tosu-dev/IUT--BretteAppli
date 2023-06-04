@@ -1,8 +1,6 @@
 package App.Server;
 
-import App.Server.Factories.BigDataFactory;
-import App.Server.Factories.DatabaseFactory;
-import App.Server.Factories.ServerFactory;
+import App.Server.Factories.*;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -11,8 +9,13 @@ public class Server {
         try {
             ServerFactory.launch();
             DatabaseFactory.setup();
-            BigDataFactory.create();
-		} catch (InvocationTargetException | IllegalAccessException | InstantiationException | NoSuchMethodException e) {
+            EmailFactory.setup();
+
+            BigDataFactory.populate();
+            ReminderFactory.populate();
+
+        } catch (InvocationTargetException | IllegalAccessException | InstantiationException |
+                 NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }

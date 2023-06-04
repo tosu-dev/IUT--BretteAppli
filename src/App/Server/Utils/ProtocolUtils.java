@@ -32,4 +32,14 @@ public class ProtocolUtils {
         return entityToReturn;
     }
 
+    public static boolean askBoolean(Service service, String messageError, String askMessage) throws IOException {
+        String answer = service.read();
+
+        while (!answer.equals("oui") && !answer.equals("no")) {
+            answer = ProtocolUtils.askToRetry(service, messageError, askMessage);
+        }
+
+        return answer.equals("oui");
+    }
+
 }
