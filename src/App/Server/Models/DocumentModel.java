@@ -20,7 +20,7 @@ public class DocumentModel extends Model {
         int documentNumber = doc.getId();
         int documentState  = doc.getState();
 
-        PreparedStatement res = DatabaseManager.connect().prepareStatement("UPDATE document SET state = ? WHERE id = ?");
+        PreparedStatement res = DatabaseManager.connect().prepareStatement("UPDATE bretteapplidb.document SET state = ? WHERE id = ?");
         res.setInt(1, documentState);
         res.setInt(2, documentNumber);
 
