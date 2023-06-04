@@ -15,7 +15,7 @@ import java.sql.SQLException;
 public class CommandModel extends Model {
 
     private void deleteCommand(int commandId) throws SQLException {
-        PreparedStatement res = DatabaseManager.connect().prepareStatement("DELETE FROM command WHERE id = ?");
+        PreparedStatement res = DatabaseManager.connect().prepareStatement("DELETE FROM bretteapplidb.command WHERE id = ?");
         res.setInt(1, commandId);
 
         res.executeUpdate();
@@ -26,7 +26,7 @@ public class CommandModel extends Model {
         try {
             this.deleteCommand(commandId);
 
-        PreparedStatement res = DatabaseManager.connect().prepareStatement("INSERT INTO command(idSubscriber, idDocument, date) VALUES(?, ?, NOW())", Statement.RETURN_GENERATED_KEYS);
+        PreparedStatement res = DatabaseManager.connect().prepareStatement("INSERT INTO bretteapplidb.command(idSubscriber, idDocument, date) VALUES(?, ?, NOW())", Statement.RETURN_GENERATED_KEYS);
         res.setInt(1, subscriber.getId());
         res.setInt(2, document.getId());
 
